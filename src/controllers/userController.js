@@ -1,4 +1,4 @@
-import { generateAuthToken } from "../middlewares/auth";
+// import { generateAuthToken } from "../middlewares/auth";
 import User from "../models/userModel";
 
 const allUsers = async (req, res) => {
