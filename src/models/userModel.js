@@ -2,12 +2,13 @@ import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 
 const userSchema = new Schema({
-  name: String,
+  userName: String,
   email: { type: String, unique: true },
   password: {
     type: String,
     min: [6, " Your password is too small, minimum 6 characters"],
   },
+  role: { type: String, default: "user", enum: ["user", "admin"] },
   playlistLiked: [{ type: Schema.Types.ObjectId, ref: "playlist" }],
   songLiked: [{ type: Schema.Types.ObjectId, ref: "song" }],
 });
