@@ -2,7 +2,7 @@ import Playlist from "../models/playlistModel";
 import Song from "../models/songModel";
 import User from "../models/userModel";
 
-const getAllPlaylist = async (req, res) => {
+const getAllPlaylists = async (req, res) => {
   try {
     const playlists = await Playlist.find();
     res.json(playlists);
@@ -11,21 +11,21 @@ const getAllPlaylist = async (req, res) => {
   }
 };
 
-const getAllSongsLiked = async (req, res) => {
+const getAllPlaylistsLiked = async (req, res) => {
   try {
-    const songsLikes = await User.findById(req.params.userId).populate(
-      "playlistLiked"
+    const playlistsLikes = await User.findById(req.params.userId).populate(
+      "songsLiked"
     );
     res.json({
-      release: songsLikes,
-      Message: "Release successfully added to playlistLiked",
+      playlist: playlistsLikes,
+      Message: "Playlist successfully added to playlistLiked",
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-const getOneplaylist = async (req, res) => {
+const getOnePlaylist = async (req, res) => {
   try {
     const playlist = await Playlist.findById(req.params.id).populate("song");
     res.json(playlist);
@@ -128,9 +128,9 @@ const deleteSongPlaylist = async (req, res) => {
 };
 
 export {
-  getAllPlaylist,
-  getAllSongsLiked,
-  getOneplaylist,
+  getAllPlaylists,
+  getOnePlaylist,
+  getAllPlaylistsLiked,
   createPlaylist,
   editPlaylist,
   deletePlaylist,

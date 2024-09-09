@@ -1,5 +1,6 @@
 import Playlist from "../models/playlistModel";
 import Song from "../models/songModel";
+import User from "../models/userModel";
 
 const getAllSongs = async (req, res) => {
   try {
@@ -10,7 +11,21 @@ const getAllSongs = async (req, res) => {
   }
 };
 
-const getAsong = async (req, res) => {
+const getAllSongsLiked = async (req, res) => {
+  try {
+    const songsLikes = await User.findById(req.params.userId).populate(
+      "songsLiked"
+    );
+    res.json({
+      release: songsLikes,
+      Message: "Release successfully added to playlistLiked",
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getOneSong = async (req, res) => {
   try {
     const song = await Song.findById(req.params.id);
     res.json(song);
@@ -54,7 +69,7 @@ const insertSongPlaylist = async (req, res) => {
 const editSong = async (req, res) => {
   try {
     const updateSong = await Song.findByIdAndUpdate(
-      { _id: req.params.id },
+      { _id: req.params.id_song },
       req.body,
       { new: true }
     );
@@ -96,7 +111,8 @@ const deletedSongPlaylist = async (req, res) => {
 
 export {
   getAllSongs,
-  getAsong,
+  getAllSongsLiked,
+  getOneSong,
   createSong,
   insertSongPlaylist,
   editSong,

@@ -9,8 +9,8 @@ const userSchema = new Schema({
     min: [6, " Your password is too small, minimum 6 characters"],
   },
   role: { type: String, default: "user", enum: ["user", "admin"] },
-  playlistLiked: [{ type: Schema.Types.ObjectId, ref: "playlist" }],
-  songLiked: [{ type: Schema.Types.ObjectId, ref: "song" }],
+  playlistsLiked: [{ type: Schema.Types.ObjectId, ref: "playlist" }],
+  songsLiked: [{ type: Schema.Types.ObjectId, ref: "song" }],
 });
 
 userSchema.methods.crypto = async (password) => {
