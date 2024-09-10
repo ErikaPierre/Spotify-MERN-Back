@@ -51,16 +51,31 @@ const createSong = async (req, res) => {
   }
 };
 
-const insertSongPlaylist = async (req, res) => {
+const insertSongToLikes = async (req, res) => {
   try {
-    const playlistID = await Playlist.findById(req.params.id_play);
     const newSongAdd = await Song.findById(req.params.id_song);
+    const userLikes = await User.findById(req.params.id_user);
+    userLikes.songsLiked.push(newSongAdd);
+    userLikes.save();
     res.json({
       newSongAdd,
+      message: "Your music has been succefully add to your likes ",
+    });
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+};
+
+const insertSongToPlaylist = async (req, res) => {
+  try {
+    const songAdded = await Song.findById(req.params.id_song);
+    const userPlaylists = await Playlist.findById(req.params.id_play);
+    userPlaylists.songLiked.push(songAdded._id);
+    userPlaylists.save();
+    res.json({
+      songAdded,
       message: "Your music has been succefully add to your playlist ",
     });
-    playlistID.song.push(newSongAdd);
-    playlistID.save();
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -69,7 +84,7 @@ const insertSongPlaylist = async (req, res) => {
 const editSong = async (req, res) => {
   try {
     const updateSong = await Song.findByIdAndUpdate(
-      { _id: req.params.id_song },
+      { _id: req.params.id },
       req.body,
       { new: true }
     );
@@ -96,14 +111,14 @@ const deleteSong = async (req, res) => {
 
 const deletedSongPlaylist = async (req, res) => {
   try {
-    const playlistID = await Playlist.findById(req.params.id_play);
     const removeSong = await Song.findById(req.params.id_song);
+    const userPlaylists = await Playlist.findById(req.params.id_play);
+    userPlaylists.songLiked.pop(removeSong._id);
+    userPlaylists.save();
     res.json({
       removeSong,
       message: "Your music has been succefully remove to your playlist ",
     });
-    playlistID.song.pop(removeSong);
-    playlistID.save();
   } catch (error) {
     res.json({ error: error.message });
   }
@@ -114,7 +129,8 @@ export {
   getAllSongsLiked,
   getOneSong,
   createSong,
-  insertSongPlaylist,
+  insertSongToLikes,
+  insertSongToPlaylist,
   editSong,
   deleteSong,
   deletedSongPlaylist,

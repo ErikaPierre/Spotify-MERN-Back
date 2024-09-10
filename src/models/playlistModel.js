@@ -4,9 +4,9 @@ const playlistSchema = new Schema({
   title: String,
   resume: String,
   image: String,
-  genre: String,
-  songLiked: [{ type: Schema.Types.ObjectId, ref: "song" }],
-  user: [{ type: Schema.Types.ObjectId, ref: "user" }],
+  gender: String,
+  songLiked: [{ type: Schema.Types.ObjectId, ref: "Song" }],
+  user: [{ type: Schema.Types.ObjectId, ref: "User" }],
 });
 
 const Playlist = mongoose.model("Playlist", playlistSchema);

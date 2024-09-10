@@ -11,9 +11,9 @@ import {
 const playlistRouter = Router();
 
 playlistRouter.get("/all", getAllPlaylists);
-playlistRouter.get("/:id", getOnePlaylist);
+playlistRouter.get("/one/:id", getOnePlaylist);
 playlistRouter.post("/create", createPlaylist);
-playlistRouter.put("/update/:id", editPlaylist);
+playlistRouter.put("/edit/:id", editPlaylist);
 playlistRouter.delete("/delete/:id", deletePlaylist);
 playlistRouter.delete(":id_play/delete/:id_song", deleteSongPlaylist);
 

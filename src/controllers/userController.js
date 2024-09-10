@@ -1,7 +1,7 @@
-// import { generateAuthToken } from "../middlewares/auth";
+import { generateAuthToken } from "../middlewares/auth";
 import User from "../models/userModel";
 
-const allUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
     res.json({
@@ -59,6 +59,7 @@ const editUser = async (req, res) => {
       req.body,
       { new: true }
     );
+    console.log(updateUser);
     res.json({
       updateUser,
       message: "Your user has been succefully updated",
@@ -95,9 +96,7 @@ const register = async (req, res) => {
     newUser.role = req.body.role;
     newUser.save();
 
-    const token = generateAuthToken(newUser);
-
-    res.send({ newUser, token });
+    res.send(newUser);
   } catch (error) {
     res.send(error.message);
   }
@@ -121,7 +120,7 @@ const connexion = async (req, res) => {
   }
 };
 export {
-  allUsers,
+  getAllUsers,
   getOneUser,
   createUser,
   register,

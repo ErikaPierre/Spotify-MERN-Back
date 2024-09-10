@@ -27,7 +27,9 @@ const getAllPlaylistsLiked = async (req, res) => {
 
 const getOnePlaylist = async (req, res) => {
   try {
-    const playlist = await Playlist.findById(req.params.id).populate("song");
+    const playlist = await Playlist.findById(req.params.id).populate(
+      "songLiked"
+    );
     res.json(playlist);
   } catch (error) {
     res.json({ error: error.message });
@@ -67,8 +69,8 @@ const getOnePlaylist = async (req, res) => {
 // };
 
 const createPlaylist = async (req, res) => {
-  const { title, resume, artist, gender } = req.body;
-  const image = req.file.filename;
+  const { title, resume, artist, gender, image } = req.body;
+  // const image = req.file.filename;
   try {
     const newPlaylist = await Playlist.create({
       title: title,
@@ -78,7 +80,10 @@ const createPlaylist = async (req, res) => {
       image: image,
     });
     await newPlaylist.save();
-    res.json({ newSong, message: "Your playlist has been succefully create " });
+    res.json({
+      newPlaylist,
+      message: "Your playlist has been succefully create ",
+    });
   } catch (error) {
     res.json({ error: error.message });
   }

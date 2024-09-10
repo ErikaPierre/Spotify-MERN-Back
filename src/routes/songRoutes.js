@@ -1,11 +1,13 @@
 import { Router } from "express";
 import {
-  createSong,
-  deleteSong,
-  editSong,
   getAllSongs,
   getOneSong,
-  insertSongPlaylist,
+  insertSongToLikes,
+  insertSongToPlaylist,
+  createSong,
+  editSong,
+  deleteSong,
+  deletedSongPlaylist,
 } from "../controllers/songController";
 
 const songRouter = Router();
@@ -13,8 +15,10 @@ const songRouter = Router();
 songRouter.get("/all", getAllSongs);
 songRouter.get("/:id", getOneSong);
 songRouter.post("/create", createSong);
-songRouter.post("/:id_song/addtoplaylist/:id_play", insertSongPlaylist);
-songRouter.put("/update/:id_song", editSong);
-songRouter.delete("/remove/:id_song", deleteSong);
+songRouter.post("/:id_song/addToLikes/:id_user", insertSongToLikes);
+songRouter.post("/:id_song/addToPlaylist/:id_play", insertSongToPlaylist);
+songRouter.put("/edit/:id", editSong);
+songRouter.delete("/delete/:id", deleteSong);
+songRouter.delete("/:id_song/deleteToPlaylist/:id_play", deletedSongPlaylist);
 
 export default songRouter;
